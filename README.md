@@ -1,6 +1,8 @@
 # notes-plugin-xd
 A Notes plugin for adding basic notation functionality to Adobe XD
 
+Install by adding the source folder to your XD development folder.
+
 How to use:
 1. Select Artboard or Group
 2. Select Notes Plugin and create notes by clicking Notes > Create Note Fields
