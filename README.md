@@ -1,4 +1,4 @@
-# notes-plugin-xd
+# spec-notes-plugin-xd
 A Notes plugin for adding basic notation functionality to Adobe XD
 
 Install by adding the source folder to your XD development folder.
