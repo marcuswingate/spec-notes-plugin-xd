@@ -1,0 +1,102 @@
+panel {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+}
+panel.hide *, panel .noSelection { display: none; }
+panel.hide .noSelection { 
+    display: block;
+    background: white;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1rem;
+}
+panel { height: 100%; }
+panel.singleView .noteItem .closed,
+panel.singleView .btnNewNote {
+    display: none;
+}
+
+
+
+h1.itemTitle {
+    background: white;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1rem;
+}
+
+.noteItem .closed form,
+.noteItem .closed .back,
+.noteItem .open .listNoteMeta {
+    display: none;
+}
+.noteItem .closed .listNoteMeta {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom: .25rem;
+}
+.noteItem .closed .listNoteMeta .listNoteTitle {
+    flex-grow: 1;
+}
+
+.noteItem .closed .listNoteTitle {
+    padding: 1rem;
+    border: 1px solid #eee;
+    text-align: left;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+
+.noteItem .closed .listNoteTitle:hover {
+    background: white;
+}
+
+.noteItem .closed .listNoteMeta .listNoteCopy {
+    flex-basis: 50px;
+    flex-shrink: 0;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    background: rgb(181, 240, 237);
+    margin-left: .25rem;
+}
+.noteItem .closed .listNoteMeta .listNoteCopy.clicked { 
+    background: rgb(45, 92, 7);
+    color: white;
+}
+
+.back { 
+    display: block;
+    padding: .5rem;
+    border-radius: 1rem;
+    margin: 1rem;
+    background: rgb(6, 79, 97);
+    color: white;
+    text-align: center;
+}
+
+.back:hover { background: rgb(24, 129, 155); }
+
+.noteItem .open form {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    justify-items: stretch;
+}
+
+textarea {
+    flex-basis: 1 1 500px;
+    max-height: 100%;
+    height: 450px;
+}
+
+
+footer button {
+    width: 100%;
+}
+

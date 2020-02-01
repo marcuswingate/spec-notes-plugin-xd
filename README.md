@@ -1,19 +1,14 @@
-# spec-notes-plugin-xd
-A Notes plugin for adding basic notation functionality to Adobe XD
+# spec-notes-1
 
-Install by adding the source folder to your XD development folder.
+A notes plug-in for adding basic notation functionality to Adobe XD, particularly with specification notes.
 
 How to use:
-1. Select Artboard or Group
-2. Select Notes Plugin and create notes by clicking Notes > Create Note Fields
-3. View notes by selecting Notes > Note Panel
-4. Save note by clicking Save Changes
+Open Spec Notes 1 from plug-in view.
+Select Artboard or Group
 
-This creates notes by adding hidden Text Boxes to the artboard or group which can then be viewed from the panel view.
+List View
+- Open Note by clicking the title.
+- Copy Note contents by clicking Copy
 
-![](XD-Notes-Plugin-How-To.gif)
-
-To Do:
-- Add visual indicator for Artboards or Groups with notes.
-- Add prompt for creating additional/custom-titled notes.
-- Receive feedback from other designers.
+Note View
+- Edit Note title/contents by clicking the respective input/textarea.
