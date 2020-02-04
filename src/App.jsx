@@ -19,6 +19,7 @@ class App extends React.Component {
         this.panel = React.createRef();
         this.documentStateChanged = this.documentStateChanged.bind(this);
         this.addNote = this.addNote.bind(this);
+        this.reloadNotes = this.reloadNotes.bind(this);
     }
 
 
@@ -59,7 +60,7 @@ class App extends React.Component {
         //console.log(this.state.notes);
     }
 
-    addNote(selection) {
+    addNote() {
         const { editDocument } = require("application");
                 
         editDocument({editLabel: "Add Note"}, () => {
@@ -73,7 +74,7 @@ class App extends React.Component {
             };
             
             if (Object.keys(this.state.notesGroup).length === 0 ) {
-                this.props.selection.insertionParent.addChild(text);
+                this.props.selection.items[0].addChild(text);
                 text.moveInParentCoordinates(200,100);
             } else {
                 this.state.notesGroup.addChild(text);
@@ -82,6 +83,36 @@ class App extends React.Component {
             
 
         });
+    }
+
+    reloadNotes() {
+        // Dev Option. Used to reload notes if no longer showing. 
+        let board = this.props.selection.items[0];
+
+        const { editDocument } = require("application");
+        editDocument({editLabel: "Organize Note"}, () => {
+            if ( board instanceof Artboard || board instanceof Group) {
+                board.children.forEach(function (childNode) {
+                    if (childNode instanceof Group && childNode.name=="Annotations" && !childNode.pluginData) {
+                        childNode.children.forEach(function(noteNode) {
+                            if (noteNode instanceof Text) {
+                                noteNode.pluginData = {
+                                    "category":"N/A",
+                                    "type":"note",
+                                };
+                            }
+                        });   
+                    } else if (childNode instanceof Text && !childNode.pluginData && childNode.visible == false ) {
+                        childNode.pluginData = {
+                            "category":"N/A",
+                            "type":"note",
+                        };
+                        console.log(childNode);
+                    }
+                });   
+            }
+        });
+        
     }
 
 
@@ -96,6 +127,7 @@ class App extends React.Component {
                     <NoteList notes={this.state.notes} />
                     <footer>
                         <button className="btnNewNote" onClick={this.addNote} uxp-variant="cta">New Note</button>
+                        <button className="btnLoadNotes" onClick={this.reloadNotes} uxp-variant="cta">Reload Notes</button>
                     </footer>
                 </panel>
             );

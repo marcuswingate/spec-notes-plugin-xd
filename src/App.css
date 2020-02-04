@@ -2,7 +2,7 @@ panel {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
 }
-panel.hide *, panel .noSelection { display: none; }
+panel.hide *, panel .noSelection, .btnLoadNotes { display: none; }
 panel.hide .noSelection { 
     display: block;
     background: white;

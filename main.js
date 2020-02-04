@@ -99,7 +99,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "panel {\n    position: absolute;\n    top: 0; left: 0; right: 0; bottom: 0;\n}\npanel.hide *, panel .noSelection { display: none; }\npanel.hide .noSelection { \n    display: block;\n    background: white;\n    text-align: center;\n    padding: 2rem;\n    font-size: 1rem;\n}\npanel { height: 100%; }\npanel.singleView .noteItem .closed,\npanel.singleView .btnNewNote {\n    display: none;\n}\n\n\n\nh1.itemTitle {\n    background: white;\n    text-align: center;\n    padding: 2rem;\n    font-size: 1rem;\n}\n\n.noteItem .closed form,\n.noteItem .closed .back,\n.noteItem .open .listNoteMeta {\n    display: none;\n}\n.noteItem .closed .listNoteMeta {\n    display: flex;\n    flex-flow: row nowrap;\n    margin-bottom: .25rem;\n}\n.noteItem .closed .listNoteMeta .listNoteTitle {\n    flex-grow: 1;\n}\n\n.noteItem .closed .listNoteTitle {\n    padding: 1rem;\n    border: 1px solid #eee;\n    text-align: left;\n    height: 60px;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    flex-grow: 1;\n    justify-content: flex-start;\n}\n\n.noteItem .closed .listNoteTitle:hover {\n    background: white;\n}\n\n.noteItem .closed .listNoteMeta .listNoteCopy {\n    flex-basis: 50px;\n    flex-shrink: 0;\n    display: flex;\n    flex-flow: row;\n    align-items: center;\n    justify-content: center;\n    background: rgb(181, 240, 237);\n    margin-left: .25rem;\n}\n.noteItem .closed .listNoteMeta .listNoteCopy.clicked { \n    background: rgb(45, 92, 7);\n    color: white;\n}\n\n.back { \n    display: block;\n    padding: .5rem;\n    border-radius: 1rem;\n    margin: 1rem;\n    background: rgb(6, 79, 97);\n    color: white;\n    text-align: center;\n}\n\n.back:hover { background: rgb(24, 129, 155); }\n\n.noteItem .open form {\n    display: flex;\n    flex-flow: column nowrap;\n    height: 100%;\n    justify-items: stretch;\n}\n\ntextarea {\n    flex-basis: 1 1 500px;\n    max-height: 100%;\n    height: 450px;\n}\n\n\nfooter button {\n    width: 100%;\n}\n\n", ""]);
+exports.push([module.i, "panel {\n    position: absolute;\n    top: 0; left: 0; right: 0; bottom: 0;\n}\npanel.hide *, panel .noSelection, .btnLoadNotes { display: none; }\npanel.hide .noSelection { \n    display: block;\n    background: white;\n    text-align: center;\n    padding: 2rem;\n    font-size: 1rem;\n}\npanel { height: 100%; }\npanel.singleView .noteItem .closed,\npanel.singleView .btnNewNote {\n    display: none;\n}\n\n\n\nh1.itemTitle {\n    background: white;\n    text-align: center;\n    padding: 2rem;\n    font-size: 1rem;\n}\n\n.noteItem .closed form,\n.noteItem .closed .back,\n.noteItem .open .listNoteMeta {\n    display: none;\n}\n.noteItem .closed .listNoteMeta {\n    display: flex;\n    flex-flow: row nowrap;\n    margin-bottom: .25rem;\n}\n.noteItem .closed .listNoteMeta .listNoteTitle {\n    flex-grow: 1;\n}\n\n.noteItem .closed .listNoteTitle {\n    padding: 1rem;\n    border: 1px solid #eee;\n    text-align: left;\n    height: 60px;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    flex-grow: 1;\n    justify-content: flex-start;\n}\n\n.noteItem .closed .listNoteTitle:hover {\n    background: white;\n}\n\n.noteItem .closed .listNoteMeta .listNoteCopy {\n    flex-basis: 50px;\n    flex-shrink: 0;\n    display: flex;\n    flex-flow: row;\n    align-items: center;\n    justify-content: center;\n    background: rgb(181, 240, 237);\n    margin-left: .25rem;\n}\n.noteItem .closed .listNoteMeta .listNoteCopy.clicked { \n    background: rgb(45, 92, 7);\n    color: white;\n}\n\n.back { \n    display: block;\n    padding: .5rem;\n    border-radius: 1rem;\n    margin: 1rem;\n    background: rgb(6, 79, 97);\n    color: white;\n    text-align: center;\n}\n\n.back:hover { background: rgb(24, 129, 155); }\n\n.noteItem .open form {\n    display: flex;\n    flex-flow: column nowrap;\n    height: 100%;\n    justify-items: stretch;\n}\n\ntextarea {\n    flex-basis: 1 1 500px;\n    max-height: 100%;\n    height: 450px;\n}\n\n\nfooter button {\n    width: 100%;\n}\n\n", ""]);
 
 // exports
 
@@ -25533,6 +25533,7 @@ class App extends React.Component {
         this.panel = React.createRef();
         this.documentStateChanged = this.documentStateChanged.bind(this);
         this.addNote = this.addNote.bind(this);
+        this.reloadNotes = this.reloadNotes.bind(this);
     }
 
     documentStateChanged(selection) {
@@ -25571,7 +25572,7 @@ class App extends React.Component {
         //console.log(this.state.notes);
     }
 
-    addNote(selection) {
+    addNote() {
         const { editDocument } = __webpack_require__(/*! application */ "application");
 
         editDocument({ editLabel: "Add Note" }, () => {
@@ -25585,11 +25586,40 @@ class App extends React.Component {
             };
 
             if (Object.keys(this.state.notesGroup).length === 0) {
-                this.props.selection.insertionParent.addChild(text);
+                this.props.selection.items[0].addChild(text);
                 text.moveInParentCoordinates(200, 100);
             } else {
                 this.state.notesGroup.addChild(text);
                 text.moveInParentCoordinates(200, 100);
+            }
+        });
+    }
+
+    reloadNotes() {
+        // Dev Option. Used to reload notes if no longer showing. 
+        let board = this.props.selection.items[0];
+
+        const { editDocument } = __webpack_require__(/*! application */ "application");
+        editDocument({ editLabel: "Organize Note" }, () => {
+            if (board instanceof Artboard || board instanceof Group) {
+                board.children.forEach(function (childNode) {
+                    if (childNode instanceof Group && childNode.name == "Annotations" && !childNode.pluginData) {
+                        childNode.children.forEach(function (noteNode) {
+                            if (noteNode instanceof Text) {
+                                noteNode.pluginData = {
+                                    "category": "N/A",
+                                    "type": "note"
+                                };
+                            }
+                        });
+                    } else if (childNode instanceof Text && !childNode.pluginData && childNode.visible == false) {
+                        childNode.pluginData = {
+                            "category": "N/A",
+                            "type": "note"
+                        };
+                        console.log(childNode);
+                    }
+                });
             }
         });
     }
@@ -25619,6 +25649,11 @@ class App extends React.Component {
                         'button',
                         { className: 'btnNewNote', onClick: this.addNote, 'uxp-variant': 'cta' },
                         'New Note'
+                    ),
+                    React.createElement(
+                        'button',
+                        { className: 'btnLoadNotes', onClick: this.reloadNotes, 'uxp-variant': 'cta' },
+                        'Reload Notes'
                     )
                 )
             );

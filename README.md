@@ -17,3 +17,5 @@ Note View
 - Edit Note title/contents by clicking the respective input/textarea.
 - Delete Note by clicking Delete button.
 - Go back to list view by clicking Back to Notes button.
+
+For issues/suggestions, I can be contacted at marcusjwingate@gmail.com
